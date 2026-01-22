@@ -49,3 +49,43 @@ exports.logoutUser = (req, res) => {
   res.cookie("jwt", "", { httpOnly: true, expires: new Date(0) });
   res.status(200).json({ message: "Logged out" });
 };
+
+exports.googleLogin = async (req, res) => {
+  try {
+    const { email, name, photo } = req.body; 
+
+    
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      
+      const randomPassword = Math.random().toString(36).slice(-8);
+      user = await User.create({ 
+        name, 
+        email, 
+        password: randomPassword 
+      });
+    }
+
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "30d",
+    });
+
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV !== "development",
+      sameSite: "strict",
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+    });
+
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+    });
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
