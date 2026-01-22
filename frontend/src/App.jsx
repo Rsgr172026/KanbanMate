@@ -10,7 +10,7 @@ import { FaTasks, FaUserCog, FaSignOutAlt, FaMoon, FaSun, FaPlus, FaBell, FaTras
 import { auth, provider } from "./firebaseConfig";
 import { signInWithPopup } from "firebase/auth";
 
-const API_URL = "http://localhost:5000/api";
+const API_URL = "https://kanbanmate.onrender.com/api";
 axios.defaults.withCredentials = true;
 
 // --- 1. LOGIN COMPONENT ---
