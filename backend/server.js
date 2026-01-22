@@ -12,7 +12,7 @@ app.use(cookieParser()); // Cookies Enable
 
 // CORS (Frontend 5173 se request allow karo)
 app.use(cors({
-  origin: "http://localhost:5173", 
+  origin: ["http://localhost:5173", "https://kanban-mate.vercel.app"], 
   credentials: true 
 }));
 
